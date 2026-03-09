@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Details Form</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: linear-gradient(to right, #4e73df, #1cc88a);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .form-container {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .form-title {
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #4e73df;
+        }
+
+        .btn-custom {
+            background-color: #4e73df;
+            color: white;
+            font-weight: 500;
+        }
+
+        .btn-custom:hover {
+            background-color: #2e59d9;
+        }
+
+        .error {
+            color: red;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h3 class="form-title">User Registration</h3>
+
+    <form id="registrationForm">
+
+        <!-- Username -->
+        <div class="mb-3">
+            <label class="form-label">Username</label>
+            <input type="text" class="form-control" id="username" placeholder="Enter username" oninput="validateUsername()">
+            <div id="usernameError" class="error"></div>
+        </div>
+
+        <!-- Email -->
+        <div class="mb-3">
+            <label class="form-label">Email ID</label>
+            <input type="text" class="form-control" id="email" placeholder="Enter email" oninput="validateEmail()">
+            <div id="emailError" class="error"></div>
+        </div>
+
+        <!-- Date of Birth -->
+        <div class="mb-3">
+            <label class="form-label">Date of Birth</label>
+            <input type="date" class="form-control" id="dob" oninput="validateDOB()">
+            <div id="dobError" class="error"></div>
+        </div>
+
+        <!-- Password -->
+        <div class="mb-3">
+            <label class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" placeholder="Enter password" oninput="validatePassword()">
+            <div id="passwordError" class="error"></div>
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="mb-3">
+            <label class="form-label">Confirm Password</label>
+            <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm password" oninput="validateConfirmPassword()">
+            <div id="confirmPasswordError" class="error"></div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="d-grid">
+            <button type="submit" class="btn btn-custom">Register</button>
+        </div>
+		
+		<!-- Success Message -->
+		<div class="text-center mt-3">
+			<label id="successMessage" class="text-success fw-bold"></label>
+		</div>
+    </form>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    document.getElementById("registrationForm").addEventListener("submit", function(e) {
+		e.preventDefault(); // Prevent page refresh
+
+		if (validateForm()) {
+			document.getElementById("successMessage").innerText = "Data Submitted Successful!";
+			document.getElementById("registrationForm").reset(); // Optional: clear form
+		} else {
+			document.getElementById("successMessage").innerText = "";
+		}
+	});
+
+    function validateUsername() {
+        let username = document.getElementById("username").value.trim();
+        let error = document.getElementById("usernameError");
+
+        if (username.length < 3) {
+            error.innerText = "Username must be at least 3 characters.";
+            return false;
+        } else {
+            error.innerText = "";
+            return true;
+        }
+    }
+
+    function validateEmail() {
+        let email = document.getElementById("email").value.trim();
+        let error = document.getElementById("emailError");
+        let pattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+
+        if (!pattern.test(email)) {
+            error.innerText = "Enter a valid email address.";
+            return false;
+        } else {
+            error.innerText = "";
+            return true;
+        }
+    }
+
+    function validateDOB() {
+        let dob = document.getElementById("dob").value;
+        let error = document.getElementById("dobError");
+
+        if (dob === "") {
+            error.innerText = "Please select your date of birth.";
+            return false;
+        } else {
+            error.innerText = "";
+            return true;
+        }
+    }
+
+    function validatePassword() {
+        let password = document.getElementById("password").value;
+        let error = document.getElementById("passwordError");
+
+        if (password.length < 6) {
+            error.innerText = "Password must be at least 6 characters.";
+            return false;
+        } else {
+            error.innerText = "";
+            return true;
+        }
+    }
+
+    function validateConfirmPassword() {
+        let password = document.getElementById("password").value;
+        let confirmPassword = document.getElementById("confirmPassword").value;
+        let error = document.getElementById("confirmPasswordError");
+
+        if (confirmPassword !== password || confirmPassword === "") {
+            error.innerText = "Passwords do not match.";
+            return false;
+        } else {
+            error.innerText = "";
+            return true;
+        }
+    }
+
+    function validateForm() {
+        return validateUsername() &&
+               validateEmail() &&
+               validateDOB() &&
+               validatePassword() &&
+               validateConfirmPassword();
+    }
+</script>
+
+</body>
+</html>
